@@ -21,64 +21,59 @@ class _ProductWidgetState extends State<ProductWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.primaryColor,
-        automaticallyImplyLeading: true,
-        actions: [],
-        centerTitle: true,
-        elevation: 4,
+    return StreamBuilder<List<ProductRecord>>(
+      stream: queryProductRecord(
+        singleRecord: true,
       ),
-      backgroundColor: Color(0xFFF5F5F5),
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Text(
-              'Barcode: ${widget.barcode}',
-              textAlign: TextAlign.center,
-              style: FlutterFlowTheme.bodyText1,
-            ),
-            StreamBuilder<List<ProductRecord>>(
-              stream: queryProductRecord(
-                singleRecord: true,
+      builder: (context, snapshot) {
+        // Customize what your widget looks like when it's loading.
+        if (!snapshot.hasData) {
+          return Center(
+            child: SizedBox(
+              width: 50,
+              height: 50,
+              child: CircularProgressIndicator(
+                color: FlutterFlowTheme.primaryColor,
               ),
-              builder: (context, snapshot) {
-                // Customize what your widget looks like when it's loading.
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: CircularProgressIndicator(
-                        color: FlutterFlowTheme.primaryColor,
-                      ),
-                    ),
-                  );
-                }
-                List<ProductRecord> columnProductRecordList = snapshot.data;
-                // Return an empty Container when the document does not exist.
-                if (snapshot.data.isEmpty) {
-                  return Container();
-                }
-                final columnProductRecord = columnProductRecordList.isNotEmpty
-                    ? columnProductRecordList.first
-                    : null;
-                return Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Text(
-                      columnProductRecord.name,
-                      style: FlutterFlowTheme.bodyText1,
-                    ),
-                  ],
-                );
-              },
             ),
-          ],
-        ),
-      ),
+          );
+        }
+        List<ProductRecord> productProductRecordList = snapshot.data;
+        // Return an empty Container when the document does not exist.
+        if (snapshot.data.isEmpty) {
+          return Container();
+        }
+        final productProductRecord = productProductRecordList.isNotEmpty
+            ? productProductRecordList.first
+            : null;
+        return Scaffold(
+          key: scaffoldKey,
+          appBar: AppBar(
+            backgroundColor: FlutterFlowTheme.primaryColor,
+            automaticallyImplyLeading: true,
+            actions: [],
+            centerTitle: true,
+            elevation: 4,
+          ),
+          backgroundColor: Color(0xFFF5F5F5),
+          body: SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Text(
+                  'Barcode: ${widget.barcode}',
+                  textAlign: TextAlign.center,
+                  style: FlutterFlowTheme.bodyText1,
+                ),
+                Text(
+                  productProductRecord.barcode,
+                  style: FlutterFlowTheme.bodyText1,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
