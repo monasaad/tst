@@ -36,14 +36,13 @@ class _ProductWidgetState extends State<ProductWidget> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Text(
-              widget.barcode,
+              'Barcode: ${widget.barcode}',
               textAlign: TextAlign.center,
               style: FlutterFlowTheme.bodyText1,
             ),
             StreamBuilder<List<ProductRecord>>(
               stream: queryProductRecord(
-                queryBuilder: (productRecord) => productRecord.where('barcode',
-                    isNotEqualTo: widget.barcode),
+                singleRecord: true,
               ),
               builder: (context, snapshot) {
                 // Customize what your widget looks like when it's loading.
@@ -59,56 +58,21 @@ class _ProductWidgetState extends State<ProductWidget> {
                   );
                 }
                 List<ProductRecord> columnProductRecordList = snapshot.data;
+                // Return an empty Container when the document does not exist.
+                if (snapshot.data.isEmpty) {
+                  return Container();
+                }
+                final columnProductRecord = columnProductRecordList.isNotEmpty
+                    ? columnProductRecordList.first
+                    : null;
                 return Column(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: List.generate(columnProductRecordList.length,
-                      (columnIndex) {
-                    final columnProductRecord =
-                        columnProductRecordList[columnIndex];
-                    return Text(
+                  children: [
+                    Text(
                       columnProductRecord.name,
-                      textAlign: TextAlign.center,
                       style: FlutterFlowTheme.bodyText1,
-                    );
-                  }),
-                );
-              },
-            ),
-            StreamBuilder<List<ProductRecord>>(
-              stream: queryProductRecord(
-                queryBuilder: (productRecord) =>
-                    productRecord.where('barcode', isEqualTo: widget.barcode),
-              ),
-              builder: (context, snapshot) {
-                // Customize what your widget looks like when it's loading.
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: CircularProgressIndicator(
-                        color: FlutterFlowTheme.primaryColor,
-                      ),
                     ),
-                  );
-                }
-                List<ProductRecord> columnProductRecordList = snapshot.data;
-                return Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: List.generate(columnProductRecordList.length,
-                      (columnIndex) {
-                    final columnProductRecord =
-                        columnProductRecordList[columnIndex];
-                    return Text(
-                      columnProductRecord.calorie.toString(),
-                      textAlign: TextAlign.center,
-                      style: FlutterFlowTheme.bodyText1,
-                    );
-                  }),
+                  ],
                 );
               },
             ),
