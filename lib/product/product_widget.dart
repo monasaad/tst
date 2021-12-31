@@ -121,14 +121,14 @@ class _ProductWidgetState extends State<ProductWidget> {
                       ),
                     ],
                   ),
-                if (!(productProductRecord != null) ?? true)
+                if ((widget.barcode) != (productProductRecord.barcode))
                   Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        'نعتذر لايوجد باركود حاليا يرجى ارسال المنتج لنا لتتم اضفته',
+                        'Sorry no matching!',
                         textAlign: TextAlign.center,
                         style: FlutterFlowTheme.bodyText1,
                       ),
