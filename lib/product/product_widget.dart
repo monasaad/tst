@@ -1,6 +1,7 @@
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -21,8 +22,8 @@ class _ProductWidgetState extends State<ProductWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<ProductRecord>>(
-      stream: queryProductRecord(
+    return FutureBuilder<List<ProductRecord>>(
+      future: queryProductRecordOnce(
         queryBuilder: (productRecord) =>
             productRecord.where('barcode', isEqualTo: widget.barcode),
         singleRecord: true,
@@ -61,16 +62,78 @@ class _ProductWidgetState extends State<ProductWidget> {
           body: SafeArea(
             child: Column(
               mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  'Barcode: ${widget.barcode}',
-                  textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.bodyText1,
-                ),
-                Text(
-                  productProductRecord.barcode,
-                  style: FlutterFlowTheme.bodyText1,
-                ),
+                if ((productProductRecord.barcode) == (widget.barcode))
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Image.network(
+                        'https://picsum.photos/seed/74/600',
+                        width: double.infinity,
+                        height: 300,
+                        fit: BoxFit.cover,
+                      ),
+                      Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            'Barcode: ${widget.barcode}',
+                            textAlign: TextAlign.center,
+                            style: FlutterFlowTheme.bodyText1,
+                          ),
+                          Text(
+                            'Name${productProductRecord.name}',
+                            textAlign: TextAlign.center,
+                            style: FlutterFlowTheme.bodyText1,
+                          ),
+                          Text(
+                            'Calories${productProductRecord.calorie.toString()}',
+                            textAlign: TextAlign.center,
+                            style: FlutterFlowTheme.bodyText1,
+                          ),
+                        ],
+                      ),
+                      FFButtonWidget(
+                        onPressed: () {
+                          print('Button pressed ...');
+                        },
+                        text: 'Add to day',
+                        options: FFButtonOptions(
+                          width: 130,
+                          height: 40,
+                          color: FlutterFlowTheme.primaryColor,
+                          textStyle: FlutterFlowTheme.subtitle2.override(
+                            fontFamily: 'Poppins',
+                            color: Colors.white,
+                          ),
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                            width: 1,
+                          ),
+                          borderRadius: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                if ((widget.barcode) != (productProductRecord.barcode))
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        'نعتذر لايوجد باركود حاليا يرجى ارسال المنتج لنا لتتم اضفته',
+                        textAlign: TextAlign.center,
+                        style: FlutterFlowTheme.bodyText1,
+                      ),
+                    ],
+                  ),
               ],
             ),
           ),
