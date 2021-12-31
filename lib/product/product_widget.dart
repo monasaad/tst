@@ -23,6 +23,8 @@ class _ProductWidgetState extends State<ProductWidget> {
   Widget build(BuildContext context) {
     return StreamBuilder<List<ProductRecord>>(
       stream: queryProductRecord(
+        queryBuilder: (productRecord) =>
+            productRecord.where('barcode', isEqualTo: widget.barcode),
         singleRecord: true,
       ),
       builder: (context, snapshot) {
