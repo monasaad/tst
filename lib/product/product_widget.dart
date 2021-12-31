@@ -60,11 +60,20 @@ class _ProductWidgetState extends State<ProductWidget> {
           ),
           backgroundColor: Color(0xFFF5F5F5),
           body: SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            child: Stack(
               children: [
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'لايوجد منتج حاليا',
+                      textAlign: TextAlign.center,
+                      style: FlutterFlowTheme.bodyText1,
+                    ),
+                  ],
+                ),
                 if (productProductRecord != null)
                   Column(
                     mainAxisSize: MainAxisSize.max,
@@ -118,19 +127,6 @@ class _ProductWidgetState extends State<ProductWidget> {
                           ),
                           borderRadius: 12,
                         ),
-                      ),
-                    ],
-                  ),
-                if ((widget.barcode) != (productProductRecord.barcode))
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        'Sorry no matching!',
-                        textAlign: TextAlign.center,
-                        style: FlutterFlowTheme.bodyText1,
                       ),
                     ],
                   ),
