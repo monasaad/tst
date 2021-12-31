@@ -65,7 +65,7 @@ class _ProductWidgetState extends State<ProductWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                if ((productProductRecord.barcode) == (widget.barcode))
+                if (productProductRecord != null)
                   Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -121,7 +121,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                       ),
                     ],
                   ),
-                if ((widget.barcode) != (productProductRecord.barcode))
+                if (!(productProductRecord != null) ?? true)
                   Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
